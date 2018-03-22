@@ -49,11 +49,7 @@ class Synth extends React.Component {
     activeColor: `rgba(${short()}, ${short()}, ${short()}, 0.2)`
   })
 
-  static instances = 0
-  instance = Synth.instances
-
   componentWillMount() {
-    Synth.instances++
     this.store.oscillator.frequency.value = mtof(this.store.pitch)
 
     Tone.connectSeries(
@@ -63,16 +59,9 @@ class Synth extends React.Component {
       Tone.Master
     )
 
-    this.store.loop = new Tone.Loop(time => {
-      if (this.isActive()) {
-        this.store.amplitudeEnvelope.triggerAttackRelease('16n', time, 1)
-      }
-
-      this.increment()
-    }, '16n')
-
     Tone.Transport.on('start', this.onTransportStart)
     Tone.Transport.on('stop', this.onTransportStop)
+    Tone.Transport.on('bang', this.onBang)
   }
 
   componentDidMount() {
@@ -98,13 +87,19 @@ class Synth extends React.Component {
   onTransportStart = () => {
     if (this.store.oscillator.state === 'stopped') {
       this.store.oscillator.start()
-      this.store.loop.start()
     }
   }
 
   onTransportStop = () => {
     this.store.oscillator.stop()
-    this.store.loop.stop()
+  }
+
+  onBang = (time, index) => {
+    if (this.isActive()) {
+      this.store.amplitudeEnvelope.triggerAttackRelease('16n', time, 1)
+    }
+
+    this.increment()
   }
 
   isActive() {

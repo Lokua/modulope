@@ -33,8 +33,10 @@ const Container = styled.div`
 class App extends Component {
   componentDidMount() {
     Tone.Transport.bpm.value = 127
-    Tone.Transport.scheduleRepeat(() => {
-      transportStore.index = (transportStore.index + 1) % 16
+
+    Tone.Transport.scheduleRepeat(time => {
+      transportStore.index++
+      Tone.Transport.emit('bang', time, transportStore.index)
     }, '16n')
   }
 
