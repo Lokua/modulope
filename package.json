@@ -5,6 +5,7 @@
   "dependencies": {
     "@lokua/midi-util": "0.3.0",
     "@lokua/number-box": "2.0.0-beta",
+    "polished": "1.9.2",
     "random-int": "1.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

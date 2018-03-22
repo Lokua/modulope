@@ -4,12 +4,16 @@ import Tone from 'tone'
 import styled from 'styled-components'
 
 import { mapTimes } from './util'
-import transportStore from './transportStore'
+import store from './store'
 import Synth from './Synth'
 import Button from './Button'
+import theme from './styles'
 
 const Container = styled.div`
+  height: 100%;
   padding: 2rem;
+  color: ${theme.color.color};
+  background-color: ${theme.color.background};
 
   > header {
     display: flex;
@@ -35,15 +39,15 @@ class App extends Component {
     Tone.Transport.bpm.value = 127
 
     Tone.Transport.scheduleRepeat(time => {
-      transportStore.index++
-      Tone.Transport.emit('bang', time, transportStore.index)
+      store.index++
+      Tone.Transport.emit('bang', time, store.index)
     }, '16n')
   }
 
   toggleTransport = () => {
     Tone.Transport.toggle()
-    transportStore.playing = !transportStore.playing
-    transportStore.index = -1
+    store.playing = !store.playing
+    store.index = -1
   }
 
   render() {
@@ -51,13 +55,13 @@ class App extends Component {
       <Container>
         <header>
           <Button onClick={this.toggleTransport}>
-            {transportStore.playing ? 'stop' : 'start'}
+            {store.playing ? 'stop' : 'start'}
           </Button>
-          <Button onClick={() => transportStore.deviceCount--}>-</Button>
-          <Button onClick={() => transportStore.deviceCount++}>+</Button>
+          <Button onClick={() => store.deviceCount--}>-</Button>
+          <Button onClick={() => store.deviceCount++}>+</Button>
         </header>
         <main>
-          {mapTimes(transportStore.deviceCount, index => <Synth key={index} />)}
+          {mapTimes(store.deviceCount, index => <Synth key={index} />)}
         </main>
       </Container>
     )

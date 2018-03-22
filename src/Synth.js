@@ -4,19 +4,30 @@ import { store as createStore, view } from 'react-easy-state'
 import { mtof } from '@lokua/midi-util'
 import styled from 'styled-components'
 import randomInt from 'random-int'
-import { randomShort as short } from './util'
+import { rgba } from 'polished'
 
 import CoreNumberBox from '@lokua/number-box'
 import NumberBox from './NumberBox'
-import transportStore from './transportStore'
+import globalStore from './store'
+import theme from './styles'
+
+const activeColors = { ...theme.color.colors }
+delete activeColors.base
+delete activeColors.black
+delete activeColors.gray
+let colorIndex = 0
+const colors = Object.keys(activeColors).reduce((acc, key) => {
+  acc.push(activeColors[key][2])
+  return acc
+}, [])
 
 const Container = styled.div`
   display: flex;
   margin: 1rem;
-  padding: 1rem;
-  border: 2px solid black;
+  padding: 2rem;
   border-radius: 2px;
-  background-color: ${p => (p.active ? p.activeColor : 'white')};
+  background-color: ${p =>
+    p.active ? rgba(p.activeColor, p.alpha) : theme.color.panelBackground};
   transition: background-color 118ms;
 `
 
@@ -46,17 +57,18 @@ class Synth extends React.Component {
     mod: randomInt(1, 16),
     index: -1,
     pitch: randomInt(0, 127),
-    activeColor: `rgba(${short()}, ${short()}, ${short()}, 0.2)`
+    activeColor: rgba(colors[colorIndex], 1)
   })
 
   componentWillMount() {
+    colorIndex = (colorIndex + 1) % colors.length
     this.store.oscillator.frequency.value = mtof(this.store.pitch)
 
     Tone.connectSeries(
       this.store.oscillator,
       this.store.amplitudeEnvelope,
       this.store.volume,
-      Tone.Master
+      globalStore.preAmp
     )
 
     Tone.Transport.on('start', this.onTransportStart)
@@ -65,7 +77,7 @@ class Synth extends React.Component {
   }
 
   componentDidMount() {
-    if (transportStore.playing) {
+    if (globalStore.playing) {
       this.onTransportStart()
     }
   }
@@ -112,7 +124,11 @@ class Synth extends React.Component {
 
   render() {
     return (
-      <Container active={this.isActive()} activeColor={this.store.activeColor}>
+      <Container
+        active={this.isActive()}
+        activeColor={this.store.activeColor}
+        alpha={Tone.dbToGain(this.store.volume.volume.value)}
+      >
         <Field>
           <label>Pitch</label>
           <NumberBox
