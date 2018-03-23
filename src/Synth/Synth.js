@@ -2,50 +2,19 @@ import React from 'react'
 import Tone from 'tone'
 import { store as createStore, view } from 'react-easy-state'
 import { mtof } from '@lokua/midi-util'
-import styled from 'styled-components'
 import randomInt from 'random-int'
-import { rgba } from 'polished'
+import { values } from 'ramda'
 
 import CoreNumberBox from '@lokua/number-box'
-import NumberBox from './NumberBox'
-import globalStore from './store'
-import theme from './styles'
-
-const activeColors = { ...theme.color.colors }
-delete activeColors.base
-delete activeColors.black
-delete activeColors.gray
-let colorIndex = 0
-const colors = Object.keys(activeColors).reduce((acc, key) => {
-  acc.push(activeColors[key][2])
-  return acc
-}, [])
-
-const Container = styled.div`
-  display: flex;
-  margin: 1rem;
-  padding: 2rem;
-  border-radius: 2px;
-  background-color: ${p =>
-    p.active ? rgba(p.activeColor, p.alpha) : theme.color.panelBackground};
-  transition: background-color 118ms;
-`
-
-const Field = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  label {
-    font-size: 0.75em;
-  }
-
-  &:not(:last-child) {
-    margin-right: 0.5rem;
-  }
-`
+import NumberBox from '../ui/NumberBox'
+import globalStore from '../store'
+import { Container, Field } from './styled'
 
 class Synth extends React.Component {
+  static instanceCount = 0
+
   store = createStore({
+    hasError: false,
     oscillator: new Tone.Oscillator(),
     amplitudeEnvelope: new Tone.AmplitudeEnvelope({
       attack: 0.001,
@@ -57,11 +26,11 @@ class Synth extends React.Component {
     mod: randomInt(1, 16),
     index: -1,
     pitch: randomInt(0, 127),
-    activeColor: rgba(colors[colorIndex], 1)
+    colorIndex: Synth.instanceCount
   })
 
   componentWillMount() {
-    colorIndex = (colorIndex + 1) % colors.length
+    Synth.instanceCount++
     this.store.oscillator.frequency.value = mtof(this.store.pitch)
 
     Tone.connectSeries(
@@ -82,18 +51,20 @@ class Synth extends React.Component {
     }
   }
 
+  componentDidCatch(error, info) {
+    // eslint-disable-next-line
+    console.info(info)
+    this.store.hasError = true
+  }
+
   componentWillUnmount() {
-    this.store.loop.stop()
+    this.store.loop && this.store.loop.stop()
     Tone.Transport.off('start', this.onTransportStart)
     Tone.Transport.off('stop', this.onTransportStop)
 
-    Object.keys(this.store).forEach(key => {
-      const value = this.store[key]
-
-      if (value instanceof Tone && value.dispose) {
-        value.dispose()
-      }
-    })
+    values(value => {
+      value instanceof Tone && value.dispose && value.dispose()
+    }, this.store)
   }
 
   onTransportStart = () => {
@@ -123,12 +94,12 @@ class Synth extends React.Component {
   }
 
   render() {
+    if (this.store.hasError) {
+      return 'Error...'
+    }
+
     return (
-      <Container
-        active={this.isActive()}
-        activeColor={this.store.activeColor}
-        alpha={Tone.dbToGain(this.store.volume.volume.value)}
-      >
+      <Container>
         <Field>
           <label>Pitch</label>
           <NumberBox

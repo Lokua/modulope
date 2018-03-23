@@ -1,38 +1,12 @@
 import React, { Component } from 'react'
 import { view } from 'react-easy-state'
 import Tone from 'tone'
-import styled from 'styled-components'
 
-import { mapTimes } from './util'
-import store from './store'
-import Synth from './Synth'
-import Button from './Button'
-import theme from './styles'
-
-const Container = styled.div`
-  height: 100%;
-  padding: 2rem;
-  color: ${theme.color.color};
-  background-color: ${theme.color.background};
-
-  > header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 2rem;
-    padding: 1rem;
-  }
-
-  > main {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    > div:not(:last-child) {
-      margin-right: 1rem;
-    }
-  }
-`
+import { mapTimes } from '../util'
+import store from '../store'
+import Synth from '../Synth'
+import Button from '../ui/Button'
+import { Container } from './styled'
 
 class App extends Component {
   componentDidMount() {
