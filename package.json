@@ -2,8 +2,17 @@
   "name": "modulope",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://lokua.github.io/modulope",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
   "dependencies": {
-    "@lokua/midi-util": "0.3.0",
+    "@lokua/midi-util": "0.4.0",
     "@lokua/number-box": "2.2.0",
     "polished": "1.9.2",
     "ramda": "0.25.0",
@@ -16,14 +25,9 @@
     "styled-components": "3.2.3",
     "tone": "0.11.11"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
   "devDependencies": {
     "eslint": "4.19.1",
-    "eslint-config-lokua": "8.0.0"
+    "eslint-config-lokua": "8.0.0",
+    "gh-pages": "1.1.0"
   }
 }
