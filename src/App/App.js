@@ -7,10 +7,10 @@ import Transport from '../Transport'
 import Effects from '../Effects'
 import Synth from '../Synth'
 import Button from '../ui/Button'
-import { Container, Header, Main, Section } from './styled'
+import { Container, Header, Main, Section, Footer } from './styled'
 
 export default view(() => (
-  <Container>
+  <Container onTouchMove={e => e.preventDefault()}>
     <Header>
       <Transport />
       <Effects />
@@ -24,5 +24,15 @@ export default view(() => (
         {mapTimes(store.deviceCount, index => <Synth key={index} />)}
       </Section>
     </Main>
+    <Footer>
+      <a
+        href="https://github.com/lokua/modulope.git"
+        alt="source code"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        https://github.com/lokua/modulope.git
+      </a>
+    </Footer>
   </Container>
 ))

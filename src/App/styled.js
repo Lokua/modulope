@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import ax from '../styles'
 
 export const Container = styled.div`
+  display: grid;
+  grid-template-rows: min-content auto 100px;
   overflow: auto;
   height: 100%;
   padding: 2rem;
@@ -31,4 +33,15 @@ export const Section = styled.section`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
+  &:last-child {
+    margin-bottom: 2rem;
+  }
+`
+
+export const Footer = styled.footer`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 `

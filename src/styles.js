@@ -43,6 +43,16 @@ injectGlobal`
   }
 
   #root {
+    overflow: hidden;
     height: 100%;
+  }
+
+  a:link, a:visited, a:hover {
+    color: ${theme.color.inputBackground};
+  }
+
+  hr {
+    background-color: none;
+    border-bottom: 1px solid ${theme.color.panelBackground};
   }
 `
