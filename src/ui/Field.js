@@ -5,6 +5,9 @@ export default styled.div`
   flex-direction: column;
 
   label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 0.5rem;
     font-size: 0.8em;
     text-align: center;

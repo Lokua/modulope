@@ -18,6 +18,10 @@ export const Header = styled.header`
   justify-content: center;
   margin-bottom: 2rem;
   padding: 1rem;
+
+  > section {
+    display: flex;
+  }
 `
 
 export const Main = styled.main`

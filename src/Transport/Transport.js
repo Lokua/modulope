@@ -6,7 +6,7 @@ import store from '../store'
 import Button from '../ui/Button'
 import NumberBox from '../ui/NumberBox'
 import Field from '../ui/Field'
-import { Container } from './styled'
+import { Container, LED } from './styled'
 
 class Transport extends Component {
   componentDidMount() {
@@ -35,7 +35,9 @@ class Transport extends Component {
           {store.playing ? 'stop' : 'start'}
         </Button>
         <Field>
-          <label>BPM</label>
+          <label>
+            BPM <LED on={store.index % 4 === 0} />
+          </label>
           <NumberBox
             min="1"
             max="999"

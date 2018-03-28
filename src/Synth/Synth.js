@@ -10,6 +10,7 @@ import Field from '../ui/Field'
 import globalStore from '../store'
 import { round } from '../util'
 import { Container } from './styled'
+import { LED } from '../Transport/styled'
 
 class Synth extends React.Component {
   static instanceCount = 0
@@ -25,7 +26,6 @@ class Synth extends React.Component {
     }),
     volume: new Tone.Volume(-Infinity),
     mod: randomInt(1, 16),
-    index: globalStore.index,
     pitch: randomInt(0, 127),
     colorIndex: Synth.instanceCount
   })
@@ -76,16 +76,10 @@ class Synth extends React.Component {
     if (this.isActive()) {
       this.store.amplitudeEnvelope.triggerAttackRelease('16n', time, 1)
     }
-
-    this.increment()
   }
 
   isActive() {
-    return this.store.index % this.store.mod === 0
-  }
-
-  increment() {
-    this.store.index = (this.store.index + 1) % this.store.mod
+    return globalStore.index % this.store.mod === 0
   }
 
   render() {
@@ -106,7 +100,9 @@ class Synth extends React.Component {
           />
         </Field>
         <Field>
-          <label>Mod</label>
+          <label>
+            Mod <LED on={this.isActive()} />
+          </label>
           <NumberBox
             min={1}
             max={16}
