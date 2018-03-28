@@ -5,14 +5,8 @@ const store = createStore({
   playing: false,
   index: -1,
   deviceCount: 1,
+  bpm: 127,
   preAmp: new Tone.Volume()
 })
-
-Tone.connectSeries(
-  store.preAmp,
-  new Tone.Freeverb(),
-  new Tone.FeedbackDelay(),
-  Tone.Master
-)
 
 export default store

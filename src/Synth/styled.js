@@ -23,18 +23,3 @@ export const Container = styled.div`
   background-color: ${getColor};
   transition: background-color 118ms;
 `
-
-export const Field = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  label {
-    margin-bottom: 0.5rem;
-    font-size: 0.8em;
-    text-align: center;
-  }
-
-  &:not(:last-child) {
-    margin-right: 0.5rem;
-  }
-`

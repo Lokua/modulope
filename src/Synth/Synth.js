@@ -5,10 +5,11 @@ import { mtof } from '@lokua/midi-util'
 import randomInt from 'random-int'
 import { values } from 'ramda'
 
-import CoreNumberBox from '@lokua/number-box'
 import NumberBox from '../ui/NumberBox'
+import Field from '../ui/Field'
 import globalStore from '../store'
-import { Container, Field } from './styled'
+import { round } from '../util'
+import { Container } from './styled'
 
 class Synth extends React.Component {
   static instanceCount = 0
@@ -24,7 +25,7 @@ class Synth extends React.Component {
     }),
     volume: new Tone.Volume(-Infinity),
     mod: randomInt(1, 16),
-    index: -1,
+    index: globalStore.index,
     pitch: randomInt(0, 127),
     colorIndex: Synth.instanceCount
   })
@@ -49,12 +50,6 @@ class Synth extends React.Component {
     if (globalStore.playing) {
       this.onTransportStart()
     }
-  }
-
-  componentDidCatch(error, info) {
-    // eslint-disable-next-line
-    console.info(info)
-    this.store.hasError = true
   }
 
   componentWillUnmount() {
@@ -125,14 +120,8 @@ class Synth extends React.Component {
           <Field>
             <label>Volume</label>
             <NumberBox
-              min={0}
-              max={1}
-              step={0.01}
-              decimals={2}
-              value={CoreNumberBox.roundToDecimal(
-                Tone.dbToGain(this.store.volume.volume.value),
-                2
-              )}
+              {...NumberBox.floatProps}
+              value={round(Tone.dbToGain(this.store.volume.volume.value), 2)}
               onChange={value => {
                 this.store.volume.volume.value = Tone.gainToDb(value)
               }}
