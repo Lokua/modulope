@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@lokua/midi-util": "0.3.0",
-    "@lokua/number-box": "2.0.0-beta",
+    "@lokua/number-box": "2.0.0",
     "polished": "1.9.2",
     "ramda": "0.25.0",
     "random-int": "1.0.0",
