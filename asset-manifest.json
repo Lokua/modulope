@@ -1,4 +1,11 @@
 {
-  "main.js": "static/js/main.95860204.js",
-  "main.js.map": "static/js/main.95860204.js.map"
+  "main.js": "/modulope/static/js/main.a90d8652.chunk.js",
+  "main.js.map": "/modulope/static/js/main.a90d8652.chunk.js.map",
+  "static/js/1.84ec8c9d.chunk.js": "/modulope/static/js/1.84ec8c9d.chunk.js",
+  "static/js/1.84ec8c9d.chunk.js.map": "/modulope/static/js/1.84ec8c9d.chunk.js.map",
+  "runtime~main.js": "/modulope/static/js/runtime~main.3c076277.js",
+  "runtime~main.js.map": "/modulope/static/js/runtime~main.3c076277.js.map",
+  "index.html": "/modulope/index.html",
+  "precache-manifest.34e80c47125e7f54122ef26a33568e28.js": "/modulope/precache-manifest.34e80c47125e7f54122ef26a33568e28.js",
+  "service-worker.js": "/modulope/service-worker.js"
 }
