@@ -17,7 +17,7 @@ export const Header = styled.header`
   align-items: center;
   justify-content: center;
   margin-bottom: 2rem;
-  padding: 1rem;
+  /* padding: 1rem; */
 
   > section {
     display: flex;
