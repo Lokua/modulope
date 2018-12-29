@@ -6,7 +6,7 @@ export const Container = styled.div`
   grid-template-rows: min-content auto 100px;
   overflow: auto;
   height: 100%;
-  padding: 2rem;
+  padding: 1rem;
   color: ${ax.color('color')};
   background-color: ${ax.color('background')};
 `

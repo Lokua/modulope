@@ -14,7 +14,6 @@ import Field from '../ui/Field'
 import { round } from '../util'
 import { Container, Header, Main, Section, Footer } from './styled'
 
-// FUCK YOU CHROME! :)
 StartAudioContext(Tone.context)
 
 export default view(() => (
