@@ -1,5 +1,6 @@
 import React from 'react'
 import { view } from 'react-easy-state'
+import StartAudioContext from 'startaudiocontext'
 import Tone from 'tone'
 
 import { mapTimes } from '../util'
@@ -12,6 +13,9 @@ import NumberBox from '../ui/NumberBox'
 import Field from '../ui/Field'
 import { round } from '../util'
 import { Container, Header, Main, Section, Footer } from './styled'
+
+// FUCK YOU CHROME! :)
+StartAudioContext(Tone.context)
 
 export default view(() => (
   <Container onTouchMove={e => e.preventDefault()}>
